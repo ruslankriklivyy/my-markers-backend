@@ -4,7 +4,7 @@ import FileModel from '../models/file-model';
 import ApiError from '../exceptions/api-error';
 
 class FileController {
-  async create(req: Request, res: Response, next: NextFunction) {
+  create(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = req.user.id;
       const file = req.file;
@@ -15,10 +15,7 @@ class FileController {
             return ApiError.BadRequest(error?.message || 'File not uploaded');
           }
 
-          const fileData: Pick<
-            cloudinary.UploadApiResponse,
-            'filename' | 'size' | 'ext' | 'url' | 'user'
-          > = {
+          const fileData = {
             filename: result.original_filename,
             size: result.bytes,
             ext: result.format,
@@ -31,10 +28,7 @@ class FileController {
           uploadFile
             .save()
             .then((fileObj: any) => {
-              res.status(200).json({
-                status: 'success',
-                file: fileObj,
-              });
+              res.status(200).json(fileObj);
             })
             .catch((error: any) => {
               return ApiError.BadRequest(error.message);
@@ -45,7 +39,31 @@ class FileController {
       next(error);
     }
   }
-  async delete() {}
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const fileId = req.params.id;
+      const file = await FileModel.findByIdAndRemove(fileId);
+      const fileName = file.url.split('/').pop();
+
+      await cloudinary.v2.uploader.destroy(
+        fileName.split('.')[0],
+        (
+          error: cloudinary.UploadApiErrorResponse | undefined,
+          result: cloudinary.UploadApiResponse | undefined,
+        ) => {
+          if (error || !result) {
+            return ApiError.BadRequest(error?.message || 'File not deleted');
+          }
+
+          return res
+            .status(200)
+            .json({ message: `File ${fileName} was deleted` });
+        },
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new FileController();

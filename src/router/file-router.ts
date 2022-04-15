@@ -12,4 +12,6 @@ router.post(
   FileController.create,
 );
 
+router.delete('/files/:id', authMiddleware, FileController.delete);
+
 export default router;
