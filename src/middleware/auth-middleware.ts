@@ -5,7 +5,6 @@ import tokenService from '../service/token-service';
 import { UserDto } from '../dtos/user-dto';
 
 export const authMiddleware = (
-  error: ApiError,
   req: Request,
   res: Response,
   next: NextFunction,
@@ -17,7 +16,7 @@ export const authMiddleware = (
       return next(ApiError.UnauthorizedError());
     }
 
-    const accessToken = authorizationHeader.split(' ')[0];
+    const accessToken = authorizationHeader.split(' ')[1];
 
     if (!accessToken) {
       return next(ApiError.UnauthorizedError());
@@ -30,7 +29,6 @@ export const authMiddleware = (
     }
 
     req.user = userData;
-    console.log('current user', userData);
     next();
   } catch (error) {
     return next(ApiError.UnauthorizedError());

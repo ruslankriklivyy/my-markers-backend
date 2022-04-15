@@ -7,3 +7,10 @@ declare global {
     }
   }
 }
+
+export interface Location {
+  lat: number;
+  lng: number;
+}
+
+export type LayerType = 'private' | 'public';

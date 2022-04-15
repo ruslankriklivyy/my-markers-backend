@@ -5,7 +5,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-import router from './router';
+import userRouter from './router/user-router';
+import markerRouter from './router/marker-router';
+import layerRouter from './router/layer-router';
 import { errorsMiddleware } from './middleware/errors-middleware';
 
 const app = express();
@@ -14,7 +16,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-app.use('/api', router);
+app.use('/api', userRouter, markerRouter, layerRouter);
 app.use(errorsMiddleware);
 
 const startServer = async () => {
