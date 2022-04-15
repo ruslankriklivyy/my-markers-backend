@@ -9,6 +9,7 @@ import userRouter from './router/user-router';
 import markerRouter from './router/marker-router';
 import layerRouter from './router/layer-router';
 import { errorsMiddleware } from './middleware/errors-middleware';
+import fileRouter from './router/file-router';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,7 +17,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-app.use('/api', userRouter, markerRouter, layerRouter);
+app.use('/api', userRouter, markerRouter, layerRouter, fileRouter);
 app.use(errorsMiddleware);
 
 const startServer = async () => {
