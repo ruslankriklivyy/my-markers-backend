@@ -1,5 +1,13 @@
 import { Schema, model } from 'mongoose';
 
+export interface IUploadFile {
+  filename: string;
+  size: number;
+  ext: string;
+  url: string;
+  user: string;
+}
+
 const FileSchema = new Schema({
   filename: String,
   size: Number,

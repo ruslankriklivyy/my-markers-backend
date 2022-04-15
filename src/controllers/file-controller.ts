@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import cloudinary from '../core/cloudinary';
-import FileModel from '../models/file-model';
+import FileModel, { IUploadFile } from '../models/file-model';
 import ApiError from '../exceptions/api-error';
 
 class FileController {
@@ -27,10 +27,10 @@ class FileController {
 
           uploadFile
             .save()
-            .then((fileObj: any) => {
-              res.status(200).json(fileObj);
+            .then((uploadFileObj: IUploadFile) => {
+              res.status(200).json(uploadFileObj);
             })
-            .catch((error: any) => {
+            .catch((error: Error) => {
               return ApiError.BadRequest(error.message);
             });
         })
@@ -39,14 +39,15 @@ class FileController {
       next(error);
     }
   }
+
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const fileId = req.params.id;
       const file = await FileModel.findByIdAndRemove(fileId);
-      const fileName = file.url.split('/').pop();
+      const fileName = file.url.split('/').pop().split('.')[0];
 
       await cloudinary.v2.uploader.destroy(
-        fileName.split('.')[0],
+        fileName,
         (
           error: cloudinary.UploadApiErrorResponse | undefined,
           result: cloudinary.UploadApiResponse | undefined,
