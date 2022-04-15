@@ -1,4 +1,3 @@
-import ApiError from '../exceptions/api-error';
 import LayerModel from '../models/layer-model';
 import { LayerType } from '../../index';
 import { ILayerModel } from '../dtos/layer-dto';
