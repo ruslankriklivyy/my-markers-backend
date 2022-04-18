@@ -1,6 +1,5 @@
 import MarkerModel from '../models/marker-model';
 import { Location } from '../../index';
-import ApiError from '../exceptions/api-error';
 import { IMarkerModel } from '../dtos/marker-dto';
 
 class MarkerService {
@@ -9,8 +8,18 @@ class MarkerService {
     return markers;
   }
 
-  async create(title: string, description: string, location: Location) {
-    const marker = await MarkerModel.create({ title, description, location });
+  async create(
+    title: string,
+    description: string,
+    location: Location,
+    preview?: string | null,
+  ) {
+    const marker = await MarkerModel.create({
+      title,
+      description,
+      location,
+      preview,
+    });
     return marker;
   }
 
