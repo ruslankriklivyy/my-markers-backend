@@ -47,6 +47,11 @@ class TokenService {
     return tokenData;
   }
 
+  async findAccessToken(accessToken: string) {
+    const tokenData = await TokenModel.findOne({ accessToken });
+    return tokenData;
+  }
+
   validateAccessToken(token: string) {
     try {
       const decodedData = jwt.verify(
