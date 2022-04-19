@@ -1,6 +1,7 @@
 import LayerModel from '../models/layer-model';
 import { LayerType } from '../../index';
 import { ILayerModel } from '../dtos/layer-dto';
+import MarkerModel from '../models/marker-model';
 
 class LayerService {
   async getAll() {
@@ -20,6 +21,7 @@ class LayerService {
 
   async remove(id: string) {
     const layer = await LayerModel.findByIdAndRemove(id);
+    await MarkerModel.deleteMany({ layer: id });
     return layer;
   }
 }

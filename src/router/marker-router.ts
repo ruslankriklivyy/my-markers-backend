@@ -9,7 +9,7 @@ router.get('/markers', MarkerController.getAll);
 router.post(
   '/markers/create',
   body('title').isLength({ min: 1, max: 76 }),
-  body('description').isLength({ min: 5, max: 126 }),
+  body('description').isLength({ min: 1, max: 255 }),
   body('location').isObject(),
   body('location.lat').isNumeric(),
   body('location.lng').isNumeric(),
@@ -20,7 +20,7 @@ router.put(
   '/markers/:id',
   body('title').isLength({ min: 1, max: 76 }).optional({ nullable: true }),
   body('description')
-    .isLength({ min: 5, max: 126 })
+    .isLength({ min: 1, max: 255 })
     .optional({ nullable: true }),
   body('location').isObject().optional({ nullable: true }),
   body('location.lat').isNumeric().if(body('location.lng').exists()),

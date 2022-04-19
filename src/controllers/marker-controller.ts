@@ -22,12 +22,13 @@ class MarkerController {
         return next(ApiError.BadRequest('Validation error', errors.array()));
       }
 
-      const { title, description, location, preview } = req.body;
+      const { title, description, location, layer, preview } = req.body;
 
       const marker = await MarkerService.create(
         title,
         description,
         location,
+        layer,
         preview,
       );
 

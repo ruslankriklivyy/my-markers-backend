@@ -12,12 +12,14 @@ class MarkerService {
     title: string,
     description: string,
     location: Location,
+    layer: string,
     preview?: string | null,
   ) {
     const marker = await MarkerModel.create({
       title,
       description,
       location,
+      layer,
       preview,
     });
     return marker;

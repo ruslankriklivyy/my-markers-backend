@@ -13,8 +13,8 @@ class UserController {
         return next(ApiError.BadRequest('Validation error', errors.array()));
       }
 
-      const { email, password } = req.body;
-      const user = await UserService.registration(email, password);
+      const { fullName, email, password } = req.body;
+      const user = await UserService.registration(fullName, email, password);
       const expiresDate = 30 * 24 * 60 * 60 * 1000;
 
       res.cookie('refreshToken', user.refreshToken, {

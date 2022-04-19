@@ -8,7 +8,7 @@ import { UserDto } from '../dtos/user-dto';
 import ApiError from '../exceptions/api-error';
 
 class UserService {
-  async registration(email: string, password: string) {
+  async registration(fullName: string, email: string, password: string) {
     const user = await UserModel.findOne({ email });
 
     if (user) {
@@ -21,6 +21,7 @@ class UserService {
     const hashPassword = await bcrypt.hash(password, 3);
 
     const newUser = await UserModel.create({
+      fullName,
       email,
       password: hashPassword,
       activationLink,
