@@ -22,15 +22,7 @@ class MarkerController {
         return next(ApiError.BadRequest('Validation error', errors.array()));
       }
 
-      const { title, description, location, layer, preview } = req.body;
-
-      const marker = await MarkerService.create(
-        title,
-        description,
-        location,
-        layer,
-        preview,
-      );
+      const marker = await MarkerService.create({ ...req.body });
 
       res.status(200).json({ message: `Marker ${marker.title} was created` });
     } catch (error) {

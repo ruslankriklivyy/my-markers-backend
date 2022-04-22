@@ -9,7 +9,10 @@ const MarkerSchema = new Schema({
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
   },
-  preview: { type: String },
+  preview: {
+    url: { type: String },
+    _id: { type: Schema.Types.ObjectId },
+  },
 });
 
 const MarkerModel = model('Marker', MarkerSchema);

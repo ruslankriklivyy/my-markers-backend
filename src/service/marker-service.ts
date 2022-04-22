@@ -1,5 +1,4 @@
 import MarkerModel from '../models/marker-model';
-import { Location } from '../../index';
 import { IMarkerModel } from '../dtos/marker-dto';
 
 class MarkerService {
@@ -8,20 +7,12 @@ class MarkerService {
     return markers;
   }
 
-  async create(
-    title: string,
-    description: string,
-    location: Location,
-    layer: string,
-    preview?: string | null,
-  ) {
-    const marker = await MarkerModel.create({
-      title,
-      description,
-      location,
-      layer,
-      preview,
-    });
+  async create(markerData: IMarkerModel) {
+    const newMarker = { ...markerData };
+
+    if (!newMarker.preview) delete newMarker.preview;
+
+    const marker = await MarkerModel.create(newMarker);
     return marker;
   }
 

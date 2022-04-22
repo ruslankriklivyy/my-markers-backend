@@ -13,4 +13,9 @@ export interface Location {
   lng: number;
 }
 
+export interface PreviewData {
+  _id: string;
+  url: string;
+}
+
 export type LayerType = 'private' | 'public';
